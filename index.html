@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<!-- =================================
+     HEAD BEREICH - Meta-Informationen und Ressourcen
+     ================================= -->
+<head>
+    <!-- Basis Meta-Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Kalender 2025</title>
+    <meta name="description" content="Jahreskalender für Sachsen - Progressive Web App">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- Favicon Integration für alle Plattformen -->
+    <!-- Apple Touch Icons für iOS/iPadOS -->
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-icon-180x180.png">
+    
+    <!-- Standard Browser Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicons/favicon-16x16.png">
+    
+    <!-- PWA Manifest und Microsoft Tiles -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#8b5cf6">
+    <meta name="msapplication-TileImage" content="assets/favicons/ms-icon-144x144.png">
+    <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<!-- =================================
+     BODY BEREICH - Hauptinhalt der Anwendung
+     ================================= -->
+<body>
+    
+    <!-- Header mit Titel und Navigationselementen -->
+    <header class="header">
+        <div class="header-content">
+            <h1 id="calendar-title">Kalender 2025</h1>
+            
+            <!-- Navigation Buttons -->
+            <div class="header-controls">
+                <button id="toggle-topbar" class="btn btn-icon" title="Jahresauswahl">
+                    <img src="assets/menu_24dp_8B5CF6_FILL0_wght400_GRAD0_opsz24.svg" alt="Menu" class="icon-svg">
+                </button>
+                <button id="show-info" class="btn btn-icon" title="Info zu Farbkodierung">
+                    <img src="assets/info_24dp_8B5CF6_FILL0_wght400_GRAD0_opsz24.svg" alt="Info" class="icon-svg">
+                </button>
+                <button id="reload-calendar" class="btn btn-icon" title="Aktuelles Jahr">
+                    <img src="assets/home_24dp_8B5CF6_FILL0_wght400_GRAD0_opsz24.svg" alt="Home" class="icon-svg">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- =================================
+         OVERLAY BEREICHE - Jahresauswahl und Info
+         ================================= -->
+    
+    <!-- Jahresauswahl Overlay -->
+    <div id="topbar" class="topbar hidden">
+        <div class="topbar-content">
+            <label for="year-select">Jahr auswählen:</label>
+            
+            <!-- Custom Dropdown für Jahresauswahl -->
+            <div class="custom-select-container">
+                <div id="year-select" class="custom-select" data-value="">
+                    <span class="selected-value">Loading...</span>
+                    <div class="select-arrow">▼</div>
+                </div>
+                <div id="year-options" class="select-options hidden">
+                    <!-- Jahre 2000-2099 werden per JavaScript eingefügt -->
+                </div>
+            </div>
+            
+            <button id="apply-year" class="btn btn-primary">Anwenden</button>
+        </div>
+    </div>
+
+    <!-- Informations-Overlay für Farbkodierung -->
+    <div id="info-box" class="info-box hidden">
+        <div class="info-box-content">
+            <h3>📊 Farbkodierung im Kalender</h3>
+            
+            <!-- Legende der verschiedenen Farben -->
+            <div class="info-legend">
+                <div class="legend-item">
+                    <div class="legend-color legend-current"></div>
+                    <span class="legend-text"><strong>Türkis:</strong> Heutiger Tag</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-static"></div>
+                    <span class="legend-text"><strong>Violett:</strong> Statische Feiertage<br>
+                        <small>(Neujahr, Tag der Arbeit, Dt. Einheit, Reformationstag, Weihnachten)</small>
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-dynamic"></div>
+                    <span class="legend-text"><strong>Rosa:</strong> Dynamische Feiertage<br>
+                        <small>(Karfreitag, Ostermontag, Himmelfahrt, Pfingstmontag, Buß- und Bettag)</small>
+                    </span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color legend-week"></div>
+                    <span class="legend-text"><strong>KW:</strong> Kalenderwochen (ISO 8601)</span>
+                </div>
+            </div>
+            
+            <div class="info-tip">
+                💡 <strong>Tipp:</strong> Klicken Sie auf einen Feiertag, um Details zu sehen!
+            </div>
+            <button id="close-info" class="btn btn-primary">Verstanden</button>
+        </div>
+    </div>
+
+    <!-- =================================
+         HAUPTINHALT - Kalenderdisplay
+         ================================= -->
+    
+    <!-- Jahreskalender mit 12 Monaten -->
+    <main class="main-content">
+        <div id="calendar-grid" class="calendar-grid">
+            <!-- Die 12 Monate werden dynamisch per JavaScript eingefügt -->
+        </div>
+    </main>
+
+    <!-- =================================
+         MODAL FÜR FEIERTAGSDETAILS
+         ================================= -->
+    
+    <!-- Modal Window für Feiertagsinformationen -->
+    <div id="holiday-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="holiday-name"></h3>
+            <p id="holiday-date"></p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Jahreskalender Sachsen - PWA</p>
+    </footer>
+
+    <!-- =================================
+         JAVASCRIPT EINBINDUNG
+         ================================= -->
+    
+    <!-- Modular aufgeteilte JavaScript-Klassen -->
+    <script src="js/HolidayCalculator.js"></script>
+    <script src="js/ModalManager.js"></script>
+    <script src="js/CalendarRenderer.js"></script>
+    <script src="js/UIManager.js"></script>
+    
+    <!-- Haupt-JavaScript Datei (lädt nach allen Modulen) -->
+    <script src="js/script.js"></script>
+    
+    <!-- Service Worker Registrierung für PWA-Funktionalität -->
+    <script>
+        // Service Worker für Offline-Funktionalität registrieren
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((registration) => {
+                        console.log('Service Worker erfolgreich registriert');
+                    })
+                    .catch((error) => {
+                        console.log('Service Worker Registrierung fehlgeschlagen:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 

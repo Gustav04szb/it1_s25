@@ -1,0 +1,82 @@
+{
+  "static_holidays": [
+    {
+      "name": "Neujahr",
+      "month": 1,
+      "day": 1,
+      "type": "static"
+    },
+    {
+      "name": "Tag der Arbeit",
+      "month": 5,
+      "day": 1,
+      "type": "static"
+    },
+    {
+      "name": "Tag der Deutschen Einheit",
+      "month": 10,
+      "day": 3,
+      "type": "static"
+    },
+    {
+      "name": "Reformationstag",
+      "month": 10,
+      "day": 31,
+      "type": "static"
+    },
+    {
+      "name": "1. Weihnachtsfeiertag",
+      "month": 12,
+      "day": 25,
+      "type": "static"
+    },
+    {
+      "name": "2. Weihnachtsfeiertag",
+      "month": 12,
+      "day": 26,
+      "type": "static"
+    }
+  ],
+  "dynamic_holidays": [
+    {
+      "name": "Karfreitag",
+      "type": "dynamic",
+      "easter_offset": -2,
+      "description": "2 Tage vor Ostern"
+    },
+    {
+      "name": "Ostermontag",
+      "type": "dynamic",
+      "easter_offset": 1,
+      "description": "1 Tag nach Ostern"
+    },
+    {
+      "name": "Christi Himmelfahrt",
+      "type": "dynamic",
+      "easter_offset": 39,
+      "description": "39 Tage nach Ostern"
+    },
+    {
+      "name": "Pfingstmontag",
+      "type": "dynamic",
+      "easter_offset": 50,
+      "description": "50 Tage nach Ostern"
+    },
+    {
+      "name": "Buß- und Bettag",
+      "type": "dynamic",
+      "calculation": "wednesday_before_november_23",
+      "description": "Mittwoch vor dem 23. November"
+    }
+  ],
+  "metadata": {
+    "region": "Sachsen",
+    "country": "Deutschland",
+    "year_range": {
+      "start": 2000,
+      "end": 2099
+    },
+    "last_updated": "2025-06-01",
+    "version": "1.0"
+  }
+} 
