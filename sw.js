@@ -25,9 +25,6 @@ const urlsToCache = [
   './js/ModalManager.js',
   './js/UIManager.js',
 
-
-
-  
   // Daten
   './data/holidays.json',
   

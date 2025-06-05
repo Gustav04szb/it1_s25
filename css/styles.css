@@ -729,6 +729,16 @@ select.year-select {
         min-height: 3rem;
         padding: 0.6rem 0.2rem;
     }
+
+    /* Focus Option Checkbox Styling */
+    .focus-option {
+        padding: 0.5rem 0.75rem;
+        max-width: 250px;
+    }
+    
+    .focus-option label {
+        font-size: 0.8rem;
+    }
 }
 
 /* Sehr kleine Bildschirme */
@@ -827,6 +837,16 @@ select.year-select {
         font-size: 0.7rem;
         min-height: 2.75rem;
         padding: 0.5rem 0.1rem;
+    }
+
+    /* Focus Option Checkbox Styling */
+    .focus-option {
+        padding: 0.5rem;
+        max-width: 220px;
+    }
+    
+    .focus-option label {
+        font-size: 0.75rem;
     }
 }
 
@@ -1081,4 +1101,57 @@ select.year-select {
 .info-box .btn-primary {
     width: 100%;
     justify-content: center;
+}
+
+/* Focus Option Checkbox Styling */
+.focus-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    background: rgba(30, 30, 63, 0.6);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    width: 100%;
+    max-width: 300px;
+}
+
+.focus-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    background-color: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.focus-option input[type="checkbox"]:checked {
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.focus-option input[type="checkbox"]:checked::before {
+    content: "✓";
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.focus-option input[type="checkbox"]:hover {
+    border-color: var(--accent-primary);
+}
+
+.focus-option label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    user-select: none;
 } 

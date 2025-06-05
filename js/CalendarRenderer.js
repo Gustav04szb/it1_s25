@@ -1,7 +1,7 @@
 /**
  * =========================================
  * CALENDAR RENDERER - KALENDER DARSTELLUNG
- * Rendert die Kalender-Oberfläche
+ * Rendert den Jahreskalender mit allen Monaten
  * =========================================
  */
 
@@ -67,14 +67,28 @@ class CalendarRenderer {
             calendarGrid.appendChild(monthContainer);
         }
         
-        // Zum aktuellen Monat scrollen
-        if (currentMonthElement && window.innerWidth <= 1200) {
+        // Zum aktuellen Monat scrollen, wenn Option aktiviert
+        const autoFocusEnabled = this.getAutoFocusSetting();
+        if (currentMonthElement && autoFocusEnabled && window.innerWidth <= 1200) {
             // Verzögerung für korrektes Rendering
             setTimeout(() => {
                 currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 100);
-        }      
-
+        }
+    }
+    
+    /**
+     * Auto-Focus-Einstellung laden
+     */
+    getAutoFocusSetting() {
+        try {
+            const savedValue = localStorage.getItem('autoFocusCurrentMonth');
+            // Wenn kein Wert gespeichert ist oder der Wert "true" ist, true zurückgeben
+            return savedValue === null || savedValue === 'true';
+        } catch (e) {
+            console.warn('LocalStorage nicht verfügbar:', e);
+            return true; // Standard: aktiviert
+        }
     }
 
     /**

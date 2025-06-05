@@ -9,6 +9,8 @@ class UIManager {
     
     constructor(calendarApp) {
         this.calendarApp = calendarApp;
+        // Standard-Einstellung für automatische Fokussierung des aktuellen Monats
+        this.autoFocusCurrentMonth = this.loadAutoFocusSetting();
     }
 
     /* ===== EVENT LISTENER SETUP ===== */
@@ -28,6 +30,9 @@ class UIManager {
         
         // Navigation Events
         this.setupNavigationEvents();
+        
+        // Fokus-Option Events
+        this.setupFocusOptionEvents();
         
         // Global Events (Außerhalb klicken, ESC)
         this.setupGlobalEvents();
@@ -87,7 +92,7 @@ class UIManager {
             this.updateSelectedYear(currentYear);
             
             // Nach dem Rendern zum aktuellen Monat scrollen auf mobilen Geräten
-            if (window.innerWidth <= 768) {
+            if (this.autoFocusCurrentMonth && window.innerWidth <= 768) {
                 setTimeout(() => {
                     const currentMonthElement = document.getElementById('current-month');
                     if (currentMonthElement) {
@@ -106,7 +111,7 @@ class UIManager {
             this.closeCustomSelect();
             
             // Bei aktuellem Jahr zum aktuellen Monat scrollen auf mobilen Geräten
-            if (selectedYear === new Date().getFullYear() && window.innerWidth <= 768) {
+            if (this.autoFocusCurrentMonth && selectedYear === new Date().getFullYear() && window.innerWidth <= 768) {
                 setTimeout(() => {
                     const currentMonthElement = document.getElementById('current-month');
                     if (currentMonthElement) {
@@ -114,6 +119,22 @@ class UIManager {
                     }
                 }, 100);
             }
+        });
+    }
+
+    /**
+     * Fokus-Option Events einrichten
+     */
+    setupFocusOptionEvents() {
+        const checkbox = document.getElementById('auto-focus-month');
+        
+        // Checkbox-Status aus localStorage laden
+        checkbox.checked = this.autoFocusCurrentMonth;
+        
+        // Änderungen speichern
+        checkbox.addEventListener('change', () => {
+            this.autoFocusCurrentMonth = checkbox.checked;
+            this.saveAutoFocusSetting(checkbox.checked);
         });
     }
 
@@ -135,6 +156,21 @@ class UIManager {
         
         // Fenster-Größenänderung - Aktuellen Monat fokussieren auf mobilen Geräten
         window.addEventListener('resize', this.handleResize.bind(this));
+    }
+
+    /**
+     * Behandlung von Fenster-Größenänderungen
+     */
+    handleResize() {
+        // Nur auf mobilen Geräten zum aktuellen Monat scrollen, wenn Option aktiviert
+        if (this.autoFocusCurrentMonth && window.innerWidth <= 768) {
+            const currentMonthElement = document.getElementById('current-month');
+            if (currentMonthElement) {
+                setTimeout(() => {
+                    currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
+        }
     }
 
     /* ===== UI HILFSFUNKTIONEN ===== */
@@ -230,6 +266,33 @@ class UIManager {
         });
     }
 
+    /* ===== EINSTELLUNGEN SPEICHERN/LADEN ===== */
+    
+    /**
+     * Auto-Focus-Einstellung speichern
+     */
+    saveAutoFocusSetting(value) {
+        try {
+            localStorage.setItem('autoFocusCurrentMonth', value);
+        } catch (e) {
+            console.warn('LocalStorage nicht verfügbar:', e);
+        }
+    }
+    
+    /**
+     * Auto-Focus-Einstellung laden
+     */
+    loadAutoFocusSetting() {
+        try {
+            const savedValue = localStorage.getItem('autoFocusCurrentMonth');
+            // Wenn kein Wert gespeichert ist oder der Wert "true" ist, true zurückgeben
+            return savedValue === null || savedValue === 'true';
+        } catch (e) {
+            console.warn('LocalStorage nicht verfügbar:', e);
+            return true; // Standard: aktiviert
+        }
+    }
+
     /* ===== JAHRESAUSWAHL SETUP ===== */
 
     /**
@@ -263,21 +326,6 @@ class UIManager {
             });
             
             optionsContainer.appendChild(option);
-        }
-    }
-
-    /**
-     * Behandlung von Fenster-Größenänderungen
-     */
-    handleResize() {
-        // Nur auf mobilen Geräten zum aktuellen Monat scrollen
-        if (window.innerWidth <= 768) {
-            const currentMonthElement = document.getElementById('current-month');
-            if (currentMonthElement) {
-                setTimeout(() => {
-                    currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }, 100);
-            }
         }
     }
 } 
