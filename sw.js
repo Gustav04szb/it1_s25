@@ -20,6 +20,13 @@ const urlsToCache = [
   // Stylesheets und Scripts
   './css/styles.css',
   './js/script.js',
+  './js/CalendarRenderer.js',
+  './js/HolidayCalculator.js',
+  './js/ModalManager.js',
+  './js/UIManager.js',
+
+
+
   
   // Daten
   './data/holidays.json',
