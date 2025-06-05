@@ -37,14 +37,23 @@ class ModalManager {
     /**
      * Modal mit Feiertagsdetails anzeigen
      */
-    showHolidayModal(holidayName, dateString) {
+    showHolidayModal(holidayName, dateString, description = '') {
         const modal = document.getElementById('holiday-modal');
         const nameElement = document.getElementById('holiday-name');
         const dateElement = document.getElementById('holiday-date');
+        const descriptionElement = document.getElementById('holiday-description');
         
         // Modal-Inhalt setzen
         nameElement.textContent = holidayName;
         dateElement.textContent = `Datum: ${dateString}`;
+        
+        // Beschreibung anzeigen, wenn vorhanden
+        if (description && descriptionElement) {
+            descriptionElement.textContent = description;
+            descriptionElement.classList.remove('hidden');
+        } else if (descriptionElement) {
+            descriptionElement.classList.add('hidden');
+        }
         
         // Modal anzeigen
         modal.classList.remove('hidden');

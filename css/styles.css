@@ -339,6 +339,19 @@ select.year-select {
     box-shadow: var(--shadow-lg);
 }
 
+/* Aktueller Monat Hervorhebung */
+.month-container.current-month {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(139, 92, 246, 0.2) 100%);
+    box-shadow: 0 0 0 2px var(--accent-primary), var(--shadow-lg);
+    overflow: visible;
+}
+
+/* Spezieller Hover-Effekt für aktuellen Monat, um Border zu erhalten */
+.month-container.current-month:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 2px var(--accent-primary), var(--shadow-lg);
+}
+
 /* Monats-Header */
 .month-header {
     text-align: center;
@@ -501,15 +514,26 @@ select.year-select {
 /* Modal Content */
 .modal-content {
     background: var(--bg-card);
-    padding: 2rem;
-    border-radius: 1rem;
-    max-width: 400px;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
     width: 90%;
+    max-width: 500px;
     position: relative;
     box-shadow: var(--shadow-lg);
 }
 
-/* Modal Schließen Button */
+/* Holiday Description Styling */
+.holiday-description {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Modal Close Button */
 .modal-close {
     position: absolute;
     top: 1rem;
@@ -597,6 +621,7 @@ select.year-select {
 
     .main-content {
         padding: 1rem 0.25rem;
+        scroll-behavior: smooth;
     }
 
     .header-content {
@@ -650,6 +675,30 @@ select.year-select {
         padding: 1rem;
     }
 
+    /* Aktueller Monat mit verstärkter Hervorhebung auf mobilen Geräten */
+    .month-container.current-month {
+        border: 2px solid var(--accent-primary);
+        position: relative;
+    }
+    
+    /* Spezieller Hover-Effekt für aktuellen Monat auf mobilen Geräten */
+    .month-container.current-month:hover {
+        border: 2px solid var(--accent-primary);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .month-container.current-month::before {
+        content: "Aktueller Monat";
+        position: absolute;
+        top: -10px;
+        background: var(--accent-primary);
+        color: white;
+        font-size: 0.7rem;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
     .month-name {
         font-size: 1rem;
     }
@@ -692,6 +741,7 @@ select.year-select {
 
     .main-content {
         padding: 0.75rem 0.125rem;
+        scroll-behavior: smooth;
     }
 
     .header-content {
@@ -731,11 +781,21 @@ select.year-select {
     .topbar .btn-primary {
         padding: 1.125rem 1.75rem;
         font-size: 1.125rem;
-        width: 120px;
     }
 
     .month-container {
         padding: 0.75rem;
+    }
+    
+    /* Aktueller Monat mit noch stärkerer Hervorhebung auf kleinen Geräten */
+    .month-container.current-month {
+        border: 3px solid var(--accent-primary);
+    }
+    
+    /* Spezieller Hover-Effekt für aktuellen Monat auf kleinen Geräten */
+    .month-container.current-month:hover {
+        border: 3px solid var(--accent-primary);
+        box-shadow: var(--shadow-lg);
     }
 
     .month-name {

@@ -4,37 +4,43 @@
       "name": "Neujahr",
       "month": 1,
       "day": 1,
-      "type": "static"
+      "type": "static",
+      "description": "Gesetzlicher Feiertag zum Beginn des neuen Kalenderjahres. Wird in ganz Deutschland und weltweit gefeiert."
     },
     {
       "name": "Tag der Arbeit",
       "month": 5,
       "day": 1,
-      "type": "static"
+      "type": "static",
+      "description": "Internationaler Feiertag der Arbeiterbewegung. Erinnert an den Kampf für den Achtstundentag und faire Arbeitsbedingungen."
     },
     {
       "name": "Tag der Deutschen Einheit",
       "month": 10,
       "day": 3,
-      "type": "static"
+      "type": "static",
+      "description": "Nationaler Feiertag zur Erinnerung an die deutsche Wiedervereinigung am 3. Oktober 1990. Einziger bundesweiter gesetzlicher Feiertag nach Artikel 2 des Einigungsvertrages."
     },
     {
       "name": "Reformationstag",
       "month": 10,
       "day": 31,
-      "type": "static"
+      "type": "static",
+      "description": "Gedenktag zur Erinnerung an die Reformation der Kirche durch Martin Luther. In Sachsen und einigen anderen Bundesländern gesetzlicher Feiertag."
     },
     {
       "name": "1. Weihnachtsfeiertag",
       "month": 12,
       "day": 25,
-      "type": "static"
+      "type": "static",
+      "description": "Christliches Fest zur Geburt Jesu Christi. Bundesweiter gesetzlicher Feiertag und wichtiger kultureller Familienfeiertag in Deutschland."
     },
     {
       "name": "2. Weihnachtsfeiertag",
       "month": 12,
       "day": 26,
-      "type": "static"
+      "type": "static",
+      "description": "Zweiter Tag des Weihnachtsfestes, auch Stephanstag genannt. Bundesweiter gesetzlicher Feiertag, der die Weihnachtsfeierlichkeiten verlängert."
     }
   ],
   "dynamic_holidays": [
@@ -42,31 +48,31 @@
       "name": "Karfreitag",
       "type": "dynamic",
       "easter_offset": -2,
-      "description": "2 Tage vor Ostern"
+      "description": "Christlicher Feiertag zum Gedenken an die Kreuzigung Jesu. Stiller Feiertag mit besonderen Einschränkungen für öffentliche Veranstaltungen in ganz Deutschland."
     },
     {
       "name": "Ostermontag",
       "type": "dynamic",
       "easter_offset": 1,
-      "description": "1 Tag nach Ostern"
+      "description": "Zweiter Feiertag des Osterfestes, folgt auf den Ostersonntag. Bundesweiter gesetzlicher Feiertag, der an die Begegnung der Jünger mit dem auferstandenen Jesus erinnert."
     },
     {
       "name": "Christi Himmelfahrt",
       "type": "dynamic",
       "easter_offset": 39,
-      "description": "39 Tage nach Ostern"
+      "description": "Christlicher Feiertag 39 Tage nach Ostern. Erinnert an die Rückkehr Jesu in den Himmel. In Deutschland auch als 'Vatertag' bekannt und bundesweit gesetzlicher Feiertag."
     },
     {
       "name": "Pfingstmontag",
       "type": "dynamic",
       "easter_offset": 50,
-      "description": "50 Tage nach Ostern"
+      "description": "Zweiter Feiertag des Pfingstfestes, 50 Tage nach Ostern. Bundesweiter gesetzlicher Feiertag, der an die Aussendung des Heiligen Geistes erinnert."
     },
     {
       "name": "Buß- und Bettag",
       "type": "dynamic",
       "calculation": "wednesday_before_november_23",
-      "description": "Mittwoch vor dem 23. November"
+      "description": "Evangelischer Feiertag am Mittwoch vor dem 23. November. Seit 1995 nur noch in Sachsen gesetzlicher Feiertag, nachdem er bundesweit zur Finanzierung der Pflegeversicherung abgeschafft wurde."
     }
   ],
   "metadata": {

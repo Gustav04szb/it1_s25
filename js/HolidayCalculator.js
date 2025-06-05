@@ -53,9 +53,9 @@ class HolidayCalculator {
     /* ===== FEIERTAGE LADEN ===== */
 
     /**
-     * JSON-Datei laden (optional)
+     * JSON-Datei laden
      */
-    async tryLoadHolidaysFromJSON() {
+    async loadHolidaysFromJSON() {
         try {
             const response = await fetch('./data/holidays.json');
             if (!response.ok) throw new Error('JSON nicht verfügbar');
@@ -65,7 +65,7 @@ class HolidayCalculator {
             console.log('Feiertage aus JSON geladen');
             return true;
         } catch (error) {
-            console.log('JSON nicht verfügbar, verwende Fallback-Feiertage');
+            console.error('Fehler beim Laden der Feiertage:', error);
             return false;
         }
     }
@@ -76,42 +76,54 @@ class HolidayCalculator {
     processHolidayData(holidayData) {
         this.holidays = {};
         
-        for (let year = 2000; year <= 2099; year++) {
-            const easter = this.calculateEaster(year);
+        // Jahresbereich aus Metadaten oder Standard verwenden
+        const startYear = holidayData?.metadata?.year_range?.start || 2000;
+        const endYear = holidayData?.metadata?.year_range?.end || 2099;
+        
+        for (let year = startYear; year <= endYear; year++) {
+            this.holidays[year] = {};
             
-            // Dynamische Feiertage basierend auf Ostern
-            const goodFriday = new Date(easter.getTime() - 2 * 24 * 60 * 60 * 1000); // -2 Tage
-            const easterMonday = new Date(easter.getTime() + 1 * 24 * 60 * 60 * 1000); // +1 Tag
-            const ascensionDay = new Date(easter.getTime() + 39 * 24 * 60 * 60 * 1000); // +39 Tage
-            const whitMonday = new Date(easter.getTime() + 50 * 24 * 60 * 60 * 1000); // +50 Tage
-            const bussUndBettag = this.calculateBussUndBettag(year);
+            // Statische Feiertage aus JSON übernehmen
+            if (holidayData?.static_holidays && Array.isArray(holidayData.static_holidays)) {
+                holidayData.static_holidays.forEach(holiday => {
+                    const key = `${holiday.month}-${holiday.day}`;
+                    this.holidays[year][key] = {
+                        name: holiday.name,
+                        type: holiday.type || 'static',
+                        description: holiday.description || ''
+                    };
+                });
+            }
             
-            this.holidays[year] = {
-                // Statische Feiertage
-                '1-1': { name: 'Neujahr', type: 'static' },
-                '5-1': { name: 'Tag der Arbeit', type: 'static' },
-                '10-3': { name: 'Tag der Deutschen Einheit', type: 'static' },
-                '10-31': { name: 'Reformationstag', type: 'static' },
-                '12-25': { name: '1. Weihnachtsfeiertag', type: 'static' },
-                '12-26': { name: '2. Weihnachtsfeiertag', type: 'static' },
+            // Dynamische Feiertage berechnen basierend auf JSON-Definitionen
+            if (holidayData?.dynamic_holidays && Array.isArray(holidayData.dynamic_holidays)) {
+                // Ostersonntag berechnen (Basis für viele dynamische Feiertage)
+                const easter = this.calculateEaster(year);
                 
-                // Dynamische Feiertage
-                [`${goodFriday.getMonth() + 1}-${goodFriday.getDate()}`]: { name: 'Karfreitag', type: 'dynamic' },
-                [`${easterMonday.getMonth() + 1}-${easterMonday.getDate()}`]: { name: 'Ostermontag', type: 'dynamic' },
-                [`${ascensionDay.getMonth() + 1}-${ascensionDay.getDate()}`]: { name: 'Christi Himmelfahrt', type: 'dynamic' },
-                [`${whitMonday.getMonth() + 1}-${whitMonday.getDate()}`]: { name: 'Pfingstmontag', type: 'dynamic' },
-                [`${bussUndBettag.getMonth() + 1}-${bussUndBettag.getDate()}`]: { name: 'Buß- und Bettag', type: 'dynamic' }
-            };
+                holidayData.dynamic_holidays.forEach(holiday => {
+                    let holidayDate;
+                    
+                    // Berechnung basierend auf Ostern-Offset
+                    if (holiday.easter_offset !== undefined) {
+                        holidayDate = new Date(easter);
+                        holidayDate.setDate(easter.getDate() + holiday.easter_offset);
+                    } 
+                    // Spezielle Berechnungen
+                    else if (holiday.calculation === 'wednesday_before_november_23') {
+                        holidayDate = this.calculateBussUndBettag(year);
+                    }
+                    
+                    if (holidayDate) {
+                        const key = `${holidayDate.getMonth() + 1}-${holidayDate.getDate()}`;
+                        this.holidays[year][key] = {
+                            name: holiday.name,
+                            type: holiday.type || 'dynamic',
+                            description: holiday.description || ''
+                        };
+                    }
+                });
+            }
         }
-    }
-
-    /**
-     * Fallback-Feiertage laden
-     */
-    loadHolidaysFallback() {
-        console.log('Lade Fallback-Feiertage...');
-        this.processHolidayData({});
-        console.log('Fallback-Feiertage geladen');
     }
 
     /**

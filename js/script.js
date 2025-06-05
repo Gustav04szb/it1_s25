@@ -36,18 +36,15 @@ class CalendarApp {
         this.uiManager.setupEventListeners();
         this.uiManager.populateYearSelect();
         
-        // Feiertage laden
-        this.holidayCalculator.loadHolidaysFallback();      // Fallback-Feiertage laden
-        
-        // Ersten Kalender rendern
-        this.calendarRenderer.renderCalendar(this.currentYear);
-        
-        // Versuche JSON zu laden (optional)
-        const jsonLoaded = await this.holidayCalculator.tryLoadHolidaysFromJSON();
-        if (jsonLoaded) {
-            // Kalender mit JSON-Daten neu rendern
-            this.calendarRenderer.renderCalendar(this.currentYear);
+        // Feiertage aus JSON laden
+        const loaded = await this.holidayCalculator.loadHolidaysFromJSON();
+        if (!loaded) {
+            console.error('Feiertage konnten nicht geladen werden!');
+            // Hier könnte eine Fehlermeldung an den Benutzer angezeigt werden
         }
+        
+        // Kalender rendern
+        this.calendarRenderer.renderCalendar(this.currentYear);
         
         console.log('Kalender erfolgreich initialisiert');
     }

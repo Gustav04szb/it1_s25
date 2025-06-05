@@ -79,21 +79,6 @@ self.addEventListener('activate', (event) => {
       console.log('Service Worker übernimmt Kontrolle');
       return self.clients.claim();
     }).then(() => {
-      // Spezifische Bereinigung für alte Icon-Referenzen
-      return caches.open(CACHE_NAME).then((cache) => {
-        return cache.keys().then((requests) => {
-          return Promise.all(
-            requests.map((request) => {
-              // Entferne alte Icon-Dateien die nicht mehr existieren
-              if (request.url.includes('icon-192x192.png') || request.url.includes('icon-512x512.png')) {
-                console.log('Entferne alte Icon-Referenz:', request.url);
-                return cache.delete(request);
-              }
-            })
-          );
-        });
-      });
-    }).then(() => {
       console.log('Service Worker Aktivierung abgeschlossen');
     })
   );

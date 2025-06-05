@@ -85,6 +85,16 @@ class UIManager {
             const currentYear = new Date().getFullYear();
             this.calendarApp.updateYear(currentYear);
             this.updateSelectedYear(currentYear);
+            
+            // Nach dem Rendern zum aktuellen Monat scrollen auf mobilen Geräten
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const currentMonthElement = document.getElementById('current-month');
+                    if (currentMonthElement) {
+                        currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
         });
 
         // Jahr anwenden
@@ -94,6 +104,16 @@ class UIManager {
             document.getElementById('topbar').classList.add('hidden');
             this.updateMenuIcon(false);
             this.closeCustomSelect();
+            
+            // Bei aktuellem Jahr zum aktuellen Monat scrollen auf mobilen Geräten
+            if (selectedYear === new Date().getFullYear() && window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const currentMonthElement = document.getElementById('current-month');
+                    if (currentMonthElement) {
+                        currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 100);
+            }
         });
     }
 
@@ -112,6 +132,9 @@ class UIManager {
                 this.closeAllOverlays();
             }
         });
+        
+        // Fenster-Größenänderung - Aktuellen Monat fokussieren auf mobilen Geräten
+        window.addEventListener('resize', this.handleResize.bind(this));
     }
 
     /* ===== UI HILFSFUNKTIONEN ===== */
@@ -240,6 +263,21 @@ class UIManager {
             });
             
             optionsContainer.appendChild(option);
+        }
+    }
+
+    /**
+     * Behandlung von Fenster-Größenänderungen
+     */
+    handleResize() {
+        // Nur auf mobilen Geräten zum aktuellen Monat scrollen
+        if (window.innerWidth <= 768) {
+            const currentMonthElement = document.getElementById('current-month');
+            if (currentMonthElement) {
+                setTimeout(() => {
+                    currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 100);
+            }
         }
     }
 } 

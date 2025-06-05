@@ -48,11 +48,33 @@ class CalendarRenderer {
         const calendarGrid = document.getElementById('calendar-grid');
         calendarGrid.innerHTML = '';
         
+        // Aktuelles Datum für Markierung des aktuellen Monats
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        let currentMonthElement = null;
+        
         // Alle 12 Monate erstellen
         for (let month = 0; month < 12; month++) {
             const monthContainer = this.renderMonth(year, month);
+            
+            // Aktuellen Monat markieren
+            if (month === currentMonth && year === today.getFullYear()) {
+                monthContainer.classList.add('current-month');
+                monthContainer.id = 'current-month';
+                currentMonthElement = monthContainer;
+            }
+            
             calendarGrid.appendChild(monthContainer);
         }
+        
+        // Zum aktuellen Monat scrollen
+        if (currentMonthElement && window.innerWidth <= 1200) {
+            // Verzögerung für korrektes Rendering
+            setTimeout(() => {
+                currentMonthElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        }      
+
     }
 
     /**
@@ -203,7 +225,11 @@ class CalendarRenderer {
                     
                     // Klick-Event für Feiertagsdetails
                     day.addEventListener('click', () => {
-                        this.modalManager.showHolidayModal(holiday.name, `${dayInfo.date}.${month + 1}.${year}`);
+                        this.modalManager.showHolidayModal(
+                            holiday.name, 
+                            `${dayInfo.date}.${month + 1}.${year}`,
+                            holiday.description
+                        );
                     });
                     day.style.cursor = 'pointer';
                     day.title = holiday.name;
@@ -215,4 +241,4 @@ class CalendarRenderer {
 
         return daysGrid;
     }
-} 
+}  
